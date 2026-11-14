@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowLeft, BadgeCheck, Clock, FileCheck2, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { motion, useInView, animate, type Variants } from "framer-motion";
 
 interface HeroProps {
@@ -59,12 +59,12 @@ function CountUp({
 }
 
 export function HeroSection({ onPrimaryClick }: HeroProps) {
- const stats = {
-  free: { value: <CountUp to={100} suffix="%" duration={1} />, label: "خدمة مجانية بالكامل" },
-  response: { value: <CountUp to={24} suffix=" ساعة" duration={0.8} />, label: "متوسط وقت الاستجابة" },
-  legal: { value: "تأطير كامل", label: "صياغة قانونية للشكوى" },
-  docs: { value: <CountUp to={10000} prefix="+" duration={1.2} />, label: "طلب تم توثيقه" },
-};
+  const stats = [
+    { value: <CountUp to={100} suffix="%" duration={1} />, label: "خدمة مجانية بالكامل", accent: "text-emerald-700", borderHover: "hover:border-emerald-300", glow: "bg-emerald-500/10" },
+    { value: <CountUp to={24} suffix=" ساعة" duration={0.8} />, label: "متوسط وقت الاستجابة", accent: "text-black", borderHover: "hover:border-black/20", glow: "bg-black/10" },
+    { value: "تأطير كامل", label: "صياغة قانونية للشكوى", accent: "text-red-700", borderHover: "hover:border-red-300", glow: "bg-red-500/10" },
+    { value: <CountUp to={10000} prefix="+" duration={1.2} />, label: "طلب تم توثيقه", accent: "text-amber-700", borderHover: "hover:border-amber-300", glow: "bg-amber-500/10" },
+  ];
 
   return (
     <div className="w-full bg-white py-6 md:py-10 dir-rtl text-right">
@@ -150,93 +150,56 @@ export function HeroSection({ onPrimaryClick }: HeroProps) {
           </div>
         </section>
 
-       {/* 2. ABOUT & STATS SECTION */}
-<section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch pt-2">
+   
+        {/* 2. ABOUT & STATS SECTION (ارتفاع أقل، تدرجات فضية مع لمسات حيوية) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
 
-  {/* النص — أسلوب تحريري */}
-  <motion.div
-    initial={{ opacity: 0, y: 12 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-40px" }}
-    transition={{ duration: 0.4 }}
-    className="lg:col-span-5 flex flex-col justify-center"
-  >
-    <div className="flex items-center gap-3 mb-5">
-      <span className="text-xs font-bold tracking-widest text-neutral-400">01</span>
-      <span className="h-px w-10 bg-neutral-300" />
-      <span className="text-xs font-semibold text-neutral-500">عن المنصة</span>
-    </div>
+          {/* بطاقة من نحن */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.4 }}
+            className="lg:col-span-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-100 via-gray-50 to-slate-200/70 border border-slate-200/90 flex flex-col justify-center space-y-2 relative overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-24 h-24 bg-emerald-500/10 rounded-br-full pointer-events-none" />
+            
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight flex items-center gap-2 relative z-10">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              من نحن
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal relative z-10">
+              خدمة إلكترونية متخصصة في إعادة تأطير وصياغة الشكاوى التجارية في دولة الإمارات، لضمان استيفائها للبيانات والمستندات المطلوبة قبل رفعها للجهات المعنية.
+            </p>
+          </motion.div>
 
-    <div className="border-s-4 border-neutral-950 ps-5 space-y-4">
-      <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 tracking-tight leading-tight">
-        من نحن
-      </h2>
-      <p className="text-neutral-600 text-base sm:text-lg leading-loose">
-        خدمة إلكترونية متخصصة في إعادة تأطير وصياغة الشكاوى التجارية في دولة الإمارات، لضمان استيفائها للبيانات والمستندات المطلوبة قبل رفعها للجهات المعنية.
-      </p>
-    </div>
-  </motion.div>
+          {/* شبكة الأرقام بتدرجات الفضي ولمسات لونية حيوية */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-3"
+          >
+            {stats.map((item, idx) => (
+              <div 
+                key={idx}
+                className={`p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-slate-100 via-gray-50 to-zinc-200/75 border border-slate-200/90 ${item.borderHover} flex flex-col justify-between space-y-1.5 shadow-2xs hover:shadow-sm transition-all duration-200 group relative overflow-hidden`}
+              >
+                {/* هالة لونية ناعمة في الزاوية تعطي حيوية */}
+                <div className={`absolute -top-4 -left-4 w-14 h-14 ${item.glow} rounded-full blur-md pointer-events-none`} />
 
-  {/* شبكة Bento غير متناظرة */}
-  <motion.div
-    initial={{ opacity: 0, y: 12 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-40px" }}
-    transition={{ duration: 0.4, delay: 0.1 }}
-    className="lg:col-span-7 grid grid-cols-2 gap-3 auto-rows-[minmax(120px,auto)]"
-  >
-    {/* البطاقة الكبيرة السوداء */}
-  <div className="col-span-1 row-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-neutral-100 via-neutral-200 to-neutral-300 text-neutral-950 p-6 sm:p-8 flex flex-col justify-between min-h-[260px] border border-neutral-300 shadow-sm">
-  {/* لمعة فضية ناعمة */}
-  <div className="absolute inset-0 bg-gradient-to-tr from-white/60 via-transparent to-transparent pointer-events-none" />
-  <div className="absolute -bottom-10 -start-10 h-40 w-40 rounded-full border border-neutral-400/40" />
-  <div className="absolute -bottom-20 -start-20 h-64 w-64 rounded-full border border-neutral-400/25" />
+                <span className={`text-lg sm:text-xl font-black ${item.accent} tracking-tight group-hover:scale-105 origin-right transition-transform relative z-10`}>
+                  {item.value}
+                </span>
+                <span className="text-[11px] sm:text-xs text-slate-600 font-semibold leading-snug relative z-10">
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </motion.div>
 
-  <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white/70 border border-neutral-300">
-    <BadgeCheck className="h-6 w-6 text-neutral-800" />
-  </div>
-
-  <div className="relative space-y-2">
-    <div dir="ltr" className="text-5xl sm:text-6xl font-extrabold tracking-tight text-right text-neutral-950">
-      {stats.free.value}
-    </div>
-    <p className="text-sm text-neutral-600 font-medium">{stats.free.label}</p>
-  </div>
-</div>
-
-    {/* الاستجابة */}
-    <div className="rounded-3xl bg-neutral-100 border border-neutral-200 p-5 sm:p-6 flex flex-col justify-between">
-      <Clock className="h-5 w-5 text-neutral-500" />
-      <div className="space-y-1 mt-4">
-        <div className="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight">
-          {stats.response.value}
-        </div>
-        <p className="text-xs text-neutral-500 font-medium">{stats.response.label}</p>
-      </div>
-    </div>
-
-    {/* التأطير القانوني */}
-    <div className="rounded-3xl bg-white border border-neutral-200 p-5 sm:p-6 flex flex-col justify-between">
-      <FileCheck2 className="h-5 w-5 text-neutral-500" />
-      <div className="space-y-1 mt-4">
-        <div className="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight">
-          {stats.legal.value}
-        </div>
-        <p className="text-xs text-neutral-500 font-medium">{stats.legal.label}</p>
-      </div>
-    </div>
-
-    {/* الشريط العريض */}
-    <div className="col-span-2 rounded-3xl bg-neutral-100 border border-neutral-200 px-6 sm:px-8 py-5 flex items-center justify-between gap-4">
-      <p className="text-sm sm:text-base text-neutral-600 font-semibold">{stats.docs.label}</p>
-      <div dir="ltr" className="text-4xl sm:text-5xl font-extrabold text-neutral-950 tracking-tight">
-        {stats.docs.value}
-      </div>
-    </div>
-  </motion.div>
-
-</section>
-
+        </section>
       </div>
     </div>
   );
